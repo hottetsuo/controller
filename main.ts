@@ -2,7 +2,12 @@ radio.setGroup(1)
 radio.sendValue("モード", 0)
 basic.forever(function () {
     pins.digitalWritePin(DigitalPin.P2, 0)
-    radio.sendValue("ハンドル", Math.map(pins.analogReadPin(AnalogPin.P0), 0, 1023, -100, 100))
+    if (pins.analogReadPin(AnalogPin.P0) > 560) {
+        radio.sendValue("ハンドル", 20)
+    } else if (pins.analogReadPin(AnalogPin.P0) < 420) {
+        radio.sendValue("ハンドル", -20)
+    } else {
+        radio.sendValue("ハンドル", 0)
+    }
     pins.digitalWritePin(DigitalPin.P2, 1)
-    radio.sendValue("アクセル", Math.map(pins.analogReadPin(AnalogPin.P1), 0, 1023, -1, 1))
 })
